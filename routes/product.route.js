@@ -5,11 +5,13 @@ const {
   save,
   del,
   update,
+  findOndByid,
 } = require("../controllers/product.controller");
 
 router.get("/", findAll);
 router.post("/", save);
 router.put("/:id", update);
-router.delete("/:name", del);
+router.delete("/:id", del);
+router.get("/id/:_id", findOndByid);
 
 module.exports = router;

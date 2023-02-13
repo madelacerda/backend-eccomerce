@@ -15,7 +15,7 @@ const findAll = async (req, res) => {
 const findOndByName = async (req, res) => {
   try {
     const filter = {
-      slug: req.params.slug,
+      title: req.params.title,
     };
 
     const productos = await product.find(filter);
@@ -46,40 +46,10 @@ const findOndByid = async (req, res) => {
 
 const update = async (req, res) => {
   let id = req.params.id;
-  let {
-    slug,
-    nombre,
-    descripcion,
-    precio,
-    img,
-    categoria,
-    numReviews,
-    rating,
-    countInStock,
-  } = req.body;
+  console.log(req.params.id);
+  let data = req.body;
   try {
-    let producto;
-    await product.findByIdAndUpdate(
-      id,
-      {
-        slug,
-        nombre,
-        descripcion,
-        precio,
-        img,
-        categoria,
-        numReviews,
-        rating,
-        countInStock,
-      },
-      (err, prod) => {
-        if (err) {
-          console.log(err);
-        } else {
-          producto = prod;
-        }
-      }
-    );
+    const producto = await product.findByIdAndUpdate(id, data, { new: true });
 
     return res.json({
       msg: "producto guardado",
@@ -111,7 +81,7 @@ const save = async (req, res) => {
 };
 const del = async (req, res) => {
   try {
-    await product.deleteOne({ name: req.params.name });
+    await product.deleteOne({ _id: req.params.id });
     return res.json({
       msg: "Ok!",
       details: `${req.params.name} ha sido borrado`,
